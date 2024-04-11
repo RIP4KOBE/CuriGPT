@@ -8,209 +8,729 @@ High-level task reasoning for CURI manipulation via Multimodal LLM (Qwen-VL-Max)
 from http import HTTPStatus
 import dashscope
 from dashscope import MultiModalConversation
+import json
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+from PIL import Image, ImageDraw
 
-local_file_path1 = 'file:///home/zhuoli/Pictures/curigpt_test_tabletop.jpeg'
+local_file_path1 = '/home/zhuoli/PycharmProjects/CuriGPT/assets/img/curigpt_test_tabletop.png'
 
-curigpt_prompt = [
+#base prompt for model qwen_vl_chat_v1
+# base_multimodal_prompt = [
+#     {
+#         'role': 'system',
+#         'content': [{
+#             'text': 'you are an excellent interpreter of human instructions for robot manipulation tasks. Given an '
+#                     'instruction and a image about the environment, you first need to respond to human instructions '
+#                     'and then select plausible actions to finish the task. '
+#                      'ROBOT ACTION LIST is defined as follows: '
+#                      'grasp_and_place(arg1, arg2): The robot grasps the object at position arg1 and places it at position arg2. '
+#                      'grasp_handover_place(arg1, arg2): The robot grasps the object at position arg1 with the left hand, '
+#                      'hands it over to the right hand, and places it at position arg2. '
+#                      'grasp_and_give(arg1): The robot grasps the object at position arg1 and gives it to the user. '
+#                      'The parameters arg1 and arg2 are the bounding box coordinates of the objects, '
+#                      'which are detected by yourself from the given image. Here is an example of the conversation:'
+#         }]
+#     },
+# {
+#             "role": "user",
+#             "content": [
+#                 {'image': local_file_path1},
+#                 {"text": "hey CURI, what do you see right now?"},
+#             ]
+#     },
+# {"role": "assistant", "content":
+# [{
+#             'text': json.dumps({
+#                 "robot_response": "now I see a red plate in the center of the table, and an empty spam can, a banana, and a soda can near the plate. There is also a green container on the upper left corner of the table.",
+#                 "robot_actions": None
+#             }, indent=4)
+#         }]},
+#     {
+#         'role': 'user',
+#         'content': [
+#             {'image': local_file_path1},
+#             {'text': "Can you put the spam can in the container?"}
+#         ]
+#     },
+#     {
+#         'role': 'assistant',
+#         'content': [{
+#             'text': json.dumps({
+#                 "robot_response": "Sure thing.",
+#                 "robot_actions": [
+#                     {
+#                         "action": "grasp_and_place",
+#                         "parameters": {
+#                             "arg1": [137.0, 169.0, 157.0, 209.0],
+#                             "arg2": [184.0, 152.0, 204.0, 182.0]
+#                         }
+#                     }
+#                 ]
+#             }, indent=4)
+#         }]
+#     }
+# ]
+
+#base prompt for model qwen-vl-plus
+
+# Useful version of the base prompt for the multimodal conversation-2024-04-08
+# base_multimodal_prompt = [
+#     {
+#         "role": "system",
+#         "content": [{
+#             "text": 'you are an excellent interpreter of human instructions for robot manipulation tasks. Given an '
+#                     'instruction and a image about the environment, you first need to respond to human instructions '
+#                     'and then select plausible actions to finish the task. '
+#                      'ROBOT ACTION LIST is defined as follows: '
+#                      'grasp_and_place(arg1, arg2): The robot grasps the object at position arg1 and places it at position arg2. '
+#                      'grasp_handover_place(arg1, arg2): The robot grasps the object at position arg1 with the left hand, '
+#                      'hands it over to the right hand, and places it at position arg2. '
+#                      'grasp_and_give(arg1): The robot grasps the object at position arg1 and gives it to the user. '
+#                      'The parameters arg1 and arg2 are the bounding box coordinates of the objects, '
+#                      'which are detected by yourself from the given image. Here is an example of the conversation:'
+#         }]
+#     },
+# {
+#             "role": "user",
+#             "content": [
+#                 {"image": local_file_path1},
+#                 {"text": "hey CURI, what do you see right now?"},
+#             ]
+#     },
+# {"role": "assistant", "content":
+# [{
+#             "text": json.dumps({
+#                 "robot_response": "now I see a red plate in the center of the table, and an empty spam can, a banana, and a soda can near the plate. There is also a green container on the upper left corner of the table.",
+#                 "robot_actions": None
+#             }, indent=4)
+#         }]},
+#     {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "Can you put the spam can in the container?"}
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response": "Sure thing.",
+#                 "robot_actions": [
+#                     {
+#                         "action": "grasp_and_place",
+#                         "parameters": {
+#                             "arg1": [137.0, 169.0, 157.0, 209.0],
+#                             "arg2": [184.0, 152.0, 204.0, 182.0]
+#                         }
+#                     }
+#                 ]
+#             }, indent=4)
+#         }]
+#     }
+# ]
+
+# base_multimodal_prompt = [
+#     {
+#         "role": "system",
+#         "content": [{
+#             "text": 'You are an advanced interpreter of human instructions for robot manipulation tasks. When provided with '
+#                     'an instruction and an image of the environment, your role is to interpret the scene and then execute one '
+#                     'action from the ROBOT ACTION LIST, using the bounding box coordinates you determine from the image. '
+#                     'The responses should be structured in JSON format with two keys: "robot_response" for your description '
+#                     'and "robot_actions" for the selected action. Ensure that the examples you provide are consistent and '
+#                     'illustrate correct usage of the bounding box coordinates for arg1 and arg2.'
+#                      'ROBOT ACTION LIST is defined as follows:'
+#                     """
+#                     grasp_and_place(arg1, arg2): The robot grasps the object within the bounding box coordinates arg1 and places it at arg2. '
+#                     grasp_handover_place(arg1, arg2): The robot grasps the object within arg1, transfers it to the other hand, and places it at arg2. '
+#                     grasp_and_give(arg1): The robot grasps the object within arg1 and hands it to a human user.
+#                     """
+#                     'Bounding box coordinates (arg1, arg2) should be determined by you based on the image provided. '
+#                     'Here are some examples of expected inputs and outputs:'
+#         }]
+#     },
+#     # Example 1: Describing the environment
+# {
+#             "role": "user",
+#             "content": [
+#                 {"image": local_file_path1},
+#                 {"text": "hey CURI, what do you see right now?"},
+#             ]
+#     },
+# {"role": "assistant", "content":
+# [{
+#             "text": json.dumps({
+#                 "robot_response": "now I see a red plate in the center of the table, and an empty spam can, a banana, and a soda can near the plate. There is also a green recycling bin on the upper left corner of the table.",
+#                 "robot_actions": None
+#             }, indent=4)
+#         }]},
+#     #  Example 2: Executing a task based on user instruction
+#     {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "Can you give me something to drink?"}
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response": "Sure, you can have the soda to drink.",
+#                 "robot_actions": [
+#                     {
+#                         "action": "grasp_and_give",
+#                         "parameters": {
+#                             "arg1": [634, 672, 815, 780] # Hypothetical coordinates for the soda can
+#                         }
+#                     }
+#                 ]
+#             }, indent=4)
+#         }]
+#     },
+#     {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "Can you put the banana in the plate?"}
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response": "Yes, I can put the banana in the plate.",
+#                 "robot_actions": [
+#                     {
+#                         "action": "grasp_and_place",
+#                         "parameters": {
+#                             "arg1": [143, 719, 317, 857], # Hypothetical coordinates for the banana
+#                             "arg2": [234, 336, 624, 638] # Hypothetical coordinates for the plate
+#                         }
+#                     }
+#                 ]
+#             }, indent=4)
+#         }]
+#     },
+#     # Example 3: Answering a user's question about object placement
+# {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "where do you think the empty spam can should go?"}
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response": "The empty spam can should be placed in the recycling bin for disposal.",
+#                 "robot_actions": None
+#             }, indent=4)
+#         }]
+#     },
+#     # Example 4: Performing a placement task based on the previous question
+# {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "can you do it?"}
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response": "Of course, I can do it for you.",
+#                 "robot_actions": [
+#                     {
+#                         "action": "grasp_handover_place",
+#                         "parameters": {
+#                             "arg1": [143, 719, 317, 857], # Hypothetical coordinates for the spam can
+#                             "arg2": [579, 64, 964, 298] # Hypothetical coordinates for the recycling bin
+#                         }
+#                     }
+#                 ]
+#             }, indent=4)
+#         }]
+#     }
+# ]
+
+
+# base_multimodal_prompt = [
+#     {
+#         "role": "system",
+#         "content": [{
+#             "text": 'You are an advanced interpreter of human instructions for robot manipulation tasks. When provided with '
+#                     'an instruction and an image of the environment, your role is to interpret the scene and then execute one '
+#                     'action from the ROBOT ACTION LIST, using the bounding box coordinates you determine from the image. '
+#                     'The responses should be structured in JSON format with two keys: "robot_response" for your description '
+#                     'and "robot_actions" for the selected action. Ensure that the examples you provide are consistent and '
+#                     'illustrate correct usage of the bounding box coordinates for arg1 and arg2.'
+#                      'ROBOT ACTION LIST is defined as follows:'
+#                     """
+#                     grasp_and_place(arg1, arg2): The robot grasps the object within the bounding box coordinates arg1 and places it at arg2. '
+#                     grasp_handover_place(arg1, arg2): The robot grasps the object within arg1, transfers it to the other hand, and places it at arg2. '
+#                     grasp_and_give(arg1): The robot grasps the object within arg1 and hands it to a human user.
+#                     """
+#                     'Bounding box coordinates (arg1, arg2) should be determined by you based on the image provided. '
+#                     'Here are some examples of expected inputs and outputs:'
+#         }]
+#     },
+#     # Example 1: Describing the environment
+# {
+#             "role": "user",
+#             "content": [
+#                 {"image": local_file_path1},
+#                 {"text": "hey CURI, what do you see right now?"},
+#             ]
+#     },
+# {"role": "assistant", "content":
+# [{
+#             "text": json.dumps({
+#                 "robot_response": "now I see a red plate in the center of the table, and an empty spam can, a banana, and a soda can near the plate. There is also a green recycling bin on the upper left corner of the table.",
+#                 "robot_actions": None
+#             }, indent=4)
+#         }]},
+#     #  Example 2: Executing a task based on user instruction
+#     {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "Can you give me something to drink?"}
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response": "Sure, you can have the soda to drink.",
+#                 "robot_actions": [
+#                     {
+#                         "action": "grasp_and_give",
+#                         "parameters": {
+#                             "arg1": [634, 672, 815, 780] # Hypothetical coordinates for the soda can
+#                         }
+#                     }
+#                 ]
+#             }, indent=4)
+#         }]
+#     },
+#     {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "Can you put the banana in the plate?"}
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response": "Yes, I can put the banana in the plate.",
+#                 "robot_actions": [
+#                     {
+#                         "action": "grasp_and_place",
+#                         "parameters": {
+#                             "arg1": [143, 719, 317, 857], # Hypothetical coordinates for the banana
+#                             "arg2": [234, 336, 624, 638] # Hypothetical coordinates for the plate
+#                         }
+#                     }
+#                 ]
+#             }, indent=4)
+#         }]
+#     }
+# ]
+
+# base_multimodal_prompt = [
+#     {
+#         "role": "system",
+#         "content": [{
+#             "text": 'you are an advanced interpreter of human instructions for robot manipulation tasks. When '
+#                     'provided with an instruction and an image of the environment, your role is to interpret the '
+#                     'scene and then select one '
+#                     'action from the ROBOT ACTION LIST. '
+#                     'The responses should be structured in JSON format with two keys: "robot_response" for your description '
+#                     'and "robot_actions" for the selected action. Ensure that the examples you provide are consistent and '
+#                     'illustrate correct usage of the bounding box coordinates for arg1 and arg2. '
+#                      'ROBOT ACTION LIST is defined as follows: '
+#                      'grasp_and_place(arg1, arg2): The robot grasps the object at position arg1 and places it at position arg2. '
+#                      'grasp_handover_place(arg1, arg2): The robot grasps the object at position arg1 with the left hand, '
+#                      'hands it over to the right hand, and places it at position arg2. '
+#                      'grasp_and_give(arg1): The robot grasps the object at position arg1 and gives it to the user. '
+#                      'Bounding box coordinates (arg1, arg2) should be determined by you based on the image provided. Here are some examples of expected inputs and outputs:'
+#         }]
+#     },
+# {
+#             "role": "user",
+#             "content": [
+#                 {"image": local_file_path1},
+#                 {"text": "hey CURI, what do you see right now?"},
+#             ]
+#     },
+# {"role": "assistant", "content":
+# [{
+#             "text": json.dumps({
+#                 "robot_response": "now I see a red plate in the center of the table, and an empty spam can, a banana, and a soda can near the plate. There is also a green container on the upper left corner of the table.",
+#                 "robot_actions": None
+#             }, indent=4)
+#         }]},
+# {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#              {"text": "Can you give me something to drink?"}
+#          ]
+#      },
+#      {
+#          "role": "assistant",
+#          "content": [{
+#              "text": json.dumps({
+#                  "robot_response": "Sure, you can have the soda to drink.",
+#                  "robot_actions": [
+#                     {
+#                          "action": "grasp_and_give",
+#                          "parameters":
+#                              {"arg1": {"description": "soda can",
+#                                 "coordinates": [634, 672, 815, 780] } # Hypothetical coordinates for the soda can
+#                          }
+#                     }
+#                  ]
+#              }, indent=4)
+#          }]
+#      },
+#
+#     {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "Can you put the spam can in the container?"}
+#         ]
+#     },
+#
+#     {
+#         "role": "assistant",
+#         "content": [
+#             {
+#                 "text": json.dumps({
+#                     "robot_response": "Sure thing.",
+#                     "robot_actions": [
+#                         {
+#                             "action": "grasp_and_place",
+#                             "parameters": {
+#                                 "arg1": {
+#                                     "description": "spam can",
+#                                     "coordinates": [137.0, 169.0, 157.0, 209.0]
+#                                 },
+#                                 "arg2": {
+#                                     "description": "container",
+#                                     "coordinates": [184.0, 152.0, 204.0, 182.0]
+#                                 }
+#                             }
+#                         }
+#                     ]
+#                 }, indent=4)
+#             }
+#         ]
+#     }
+# # {
+# #         "role": "user",
+# #         "content": [
+# #             {"image": local_file_path1},
+# #             {"text": "where do you think the empty spam can should go?"}
+# #         ]
+# #     },
+# #     {
+# #         "role": "assistant",
+# #         "content": [{
+# #             "text": json.dumps({
+# #                 "robot_response": "The empty spam can should be placed in the recycling bin for disposal.",
+# #                 "robot_actions": None
+# #             }, indent=4)
+# #         }]
+# #     },
+# # {
+# #         "role": "user",
+# #         "content": [
+# #             {"image": local_file_path1},
+# #             {"text": "can you do it?"}
+# #         ]
+# #     },
+# #     {
+# #         "role": "assistant",
+# #         "content": [{
+# #             "text": json.dumps({
+# #                 "robot_response": "Of course, I can do it for you.",
+# #                 "robot_actions": [
+# #                     {
+# #                         "action": "grasp_handover_place",
+# #                         "parameters": {
+# #                             "arg1": [143, 719, 317, 857], # Hypothetical coordinates for the spam can
+# #                             "arg2": [579, 64, 964, 298] # Hypothetical coordinates for the recycling bin
+# #                         }
+# #                     }
+# #                 ]
+# #             }, indent=4)
+# #         }]
+# #     }
+# ]
+base_multimodal_prompt = [
+#     {
+#         "role": "system",
+#         "content": [{
+#             "text": '''You are a multimodal large language model serving as the brain for a humanoid robot. Your capabilities include understanding and processing both visual data and natural language. Here is what you need to do:
+#
+# 1. **Speech-to-Speech Reasoning**: When provided with a human query and a scene image, analyze the image, understand the query's context, and generate an appropriate verbal response that demonstrates your understanding of the image content. The robot action is None in this case.
+#
+# 2. **Speech-to-Action Reasoning**: When the human command involves a task that you should perform, assess the necessary action, identify the relevant object in the image, and determine the bounding box coordinates for that object. Then, formulate a response plan to execute the task.
+#
+# Upon processing the information, output your responses in a structured JSON format with the following keys:
+#
+# - "robot_response" for the verbal response to the human query.
+# - "robot_actions" for the description of the physical action you will perform, including the bounding box coordinates of the object you will manipulate.''',
+#
+#             "extra": '''ROBOT ACTION LIST is defined as follows:
+# grasp_and_place(arg1, arg2): The robot grasps the object at position arg1 and places it at position arg2.
+# grasp_handover_place(arg1, arg2): The robot grasps the object at position arg1 with the left hand, hands it over to the right hand, and places it at position arg2.
+# grasp_and_give(arg1): The robot grasps the object at position arg1 and gives it to the user. Bounding box coordinates (arg1, arg2) should be determined by you based on the image provided. Here are some examples of expected inputs and outputs:'''
+#         }]
+#     },
+    # Example 1: Speech-to-Speech Reasoning
     {
-        'role': 'system',
-        'content': [{
-            'text': 'You are a humanoid robot named CURI, which has two anthropomorphic five-fingered hand. Your '
-                    'role is to '
-                    'understand '
-                    'the given questions and images and then output the correct answers and robot action sequences '
+        "role": "user",
+        "content": [
+            {"image": local_file_path1},
+            {"text": "hey CURI, what do you see right now?"},
+        ]
+    },
+    {
+        "role": "assistant",
+        "content": [{
+            "text": json.dumps({
+                "robot_response": "Now I see a red plate in the center of the table, and an empty spam can, a banana, and a soda can near the plate. There is also a green container on the upper left corner of the table.",
+                "robot_actions": None
+            }, indent=4)
+        }]
+    },
+    # Example 2: Speech-to-Action Reasoning
+    {
+        "role": "user",
+        "content": [
+            {"image": local_file_path1},
+            {"text": "Can you give me something to drink?"}
+        ]
+    },
+    {
+        "role": "assistant",
+        "content": [{
+            "text": json.dumps({
+                "robot_response": "Sure, you can have the soda to drink.",
+                "robot_actions": [
+                    {
+                        "action": "grasp_and_give",
+                        "parameters": {
+                            "arg1": {
+                                "description": "soda can",
+                                "bbox_coordinates": [634, 672, 815, 780]  # Hypothetical coordinates for the soda can
+                                # [x1, y1, x2, y2]
+                            }
+                        }
+                    }
+                ]
+            }, indent=4)
         }]
     },
     {
-            "role": "user",
-            "content": [
-                {'image': local_file_path1},
-                {"text": "hey CURI, what do you see right now?"},
-            ]
-    },
-{"role": "assistant", "content":
-        '''
-        now I see a red plate in the center of the table, and an empty spam can, a banana, and a soda can near the 
-        plate. There is also a green container on the upper left corner of the table.
-        '''},
-    {
         "role": "user",
         "content": [
-            {'image': local_file_path1},
-            {"text": "What do you think the empty spam can should go?"},
+            {"image": local_file_path1},
+            {"text": "Can you put the spam can in the container?"}
         ]
     },
-{"role": "assistant", "content":
-        '''
-        The empty spam can should go in the green container.
-        '''},
     {
-        "role": "user",
-        "content": [
-            {'image': local_file_path1},
-            {"text": "Great, can you put them in?"},
-        ]
-    },
-{"role": "assistant", "content":
-        '''
-        Answer: 
-        Of course, I will put the empty spam can in the green container.
-        Action:
-        pos_origin, pos_target = locate_object(empty_spam_can, green_container)
-        grasp_and_place(pos_origin, pos_target)
-        '''},
-
+        "role": "assistant",
+        "content": [{
+            "text": json.dumps({
+                "robot_response": "Sure thing.",
+                "robot_actions": [
+                    {
+                        "action": "grasp_and_place",
+                            "parameters": {
+                                "arg1": {
+                                    "description": "spam can",
+                                    "bbox_coordinates": [139, 719, 317, 862] # [x1, y1, x2, y2]
+                                },
+                                "arg2": {
+                                    "description": "container",
+                                    "bbox_coordinates": [579, 67, 961, 300] # [x1, y1, x2, y2]
+                                }
+                    }
+                }
+                ]
+            }, indent=4)
+        }]
+    }
 ]
 
+def add_bbox_patch(ax, draw, bbox, color, w, h, caption):
+    x1, y1, x2, y2 = bbox
+    x1, y1, x2, y2 = (int(x1 / 1000 * w), int(y1 / 1000 * h), int(x2 / 1000 * w), int(y2 / 1000 * h))
+    rect = patches.Rectangle((x1, y1), x2 - x1, y2 - y1,
+                             linewidth=1, edgecolor=color, facecolor='none')
+    ax.add_patch(rect)
 
-def simple_multimodal_conversation_call():
+    # draw.rectangle([x1, y1, x2, y2], outline=color, width=10)
 
-    """Simple single round multimodal conversation call.
-    """
-    messages = [
-        {
-            "role": "user",
-            "content": [
-                {"image": "https://dashscope.oss-cn-beijing.aliyuncs.com/images/dog_and_girl.jpeg"},
-                {"text": "这是什么?"}
-            ]
-        }
-    ]
-    response = dashscope.MultiModalConversation.call(model='qwen-vl-max',
-                                                     messages=messages)
-    # The response status_code is HTTPStatus.OK indicate success,
-    # otherwise indicate request is failed, you can get error code
-    # and message from code and message.
-    if response.status_code == HTTPStatus.OK:
-        print(response)
-    else:
-        print(response.code)  # The error code.
-        print(response.message)  # The error message.
+    # Annotate the bounding box with a caption
+    ax.text(x1, y1, caption, color=color, weight='bold', fontsize=8,
+            bbox=dict(facecolor='white', alpha=0.75, edgecolor='none', boxstyle='round,pad=0.1'))
 
-    #streaming output
-    # for response in responses:
-    #     print(response)
+def plot_image_with_bbox(image_path, response):
+    """Parse the bbox coordinates from the response of mllm and plot them on the image.
 
-def conversation_call():
-    """Sample of multiple rounds of conversation.
-    """
-    messages = [
-        {
-            "role": "user",
-            "content": [
-                {"image": "https://dashscope.oss-cn-beijing.aliyuncs.com/images/dog_and_girl.jpeg"},
-                {"text": "这是什么?"},
-            ]
-        }
-    ]
-    response = MultiModalConversation.call(model=MultiModalConversation.Models.qwen_vl_chat_v1,
-                                           messages=messages)
-    # The response status_code is HTTPStatus.OK indicate success,
-    # otherwise indicate request is failed, you can get error code
-    # and message from code and message.
-    if response.status_code == HTTPStatus.OK:
-        print(response)
-    else:
-        print(response.code)  # The error code.
-        print(response.message)  # The error message.
-    messages.append({'role': response.output.choices[0].message.role,
-                     'content': [{'text': response.output.choices[0].message.content}]})
-    messages.append({"role": "user",
-                     "content": [
-                         {"text": "她们在干什么?", }
-                     ]})
-
-    response = MultiModalConversation.call(model=MultiModalConversation.Models.qwen_vl_chat_v1,
-                                           messages=messages)
-    # The response status_code is HTTPStatus.OK indicate success,
-    # otherwise indicate request is failed, you can get error code
-    # and message from code and message.
-    if response.status_code == HTTPStatus.OK:
-        print(response)
-    else:
-        print(response.code)  # The error code.
-        print(response.message)
-
-def call_with_local_file():
-    """Sample of use local file.
-       linux&mac file schema: file:///home/images/test.png
-       windows file schema: file://D:/images/abc.png
-    """
-    local_file_path1 = 'file:///home/zhuoli/Pictures/tabletop_fruit.png'
-    messages = [{
-        'role': 'system',
-        'content': [{
-            'text': 'You are a helpful assistant.'
-        }]
-    }, {
-        'role':
-        'user',
-        'content': [
-            {
-                'image': local_file_path1
-            },
-            # {
-            #     'image': local_file_path2
-            # },
-            {
-                'text': 'what do you see right now?'
-            },
-        ]
-    }]
-    response = MultiModalConversation.call(model=MultiModalConversation.Models.qwen_vl_chat_v1, messages=messages)
-    print(response)
-
-def multiple_call_with_local_file():
-    """multiple rounds of conversation with local file.
+    Parameters:
+    image_path (str): The path to the image file.
+    response (str): The response from the multimodal large language model.
     """
 
-    local_file_path1 = 'file:///home/zhuoli/Pictures/tabletop_fruit.png'
-    messages = [{
-        'role': 'system',
-        'content': [{
-            'text': 'You are a helpful assistant.'
-        }]
-    },
-        {
-            "role": "user",
-            "content": [
-                {'image': local_file_path1},
-                {"text": "what do you see right now?"},
-            ]
-        }
-    ]
-    response = MultiModalConversation.call(model=MultiModalConversation.Models.qwen_vl_chat_v1,
-                                           messages=messages)
-    # The response status_code is HTTPStatus.OK indicate success,
-    # otherwise indicate request is failed, you can get error code
-    # and message from code and message.
-    if response.status_code == HTTPStatus.OK:
-        print(response)
-    else:
-        print(response.code)  # The error code.
-        print(response.message)  # The error message.
-    messages.append({'role': response.output.choices[0].message.role,
-                     'content': [{'text': response.output.choices[0].message.content}]})
-    messages.append({"role": "user",
-                     "content": [
-                         {'image': local_file_path1},
-                         {"text": "Can you give me the bounding box coordinate of the largest orange?", }
-                     ]})
+    # Parse the JSON string.
+    try:
+        output_data = json.loads(response)
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+        return
 
-    response = MultiModalConversation.call(model=MultiModalConversation.Models.qwen_vl_chat_v1,
-                                           messages=messages)
-    # The response status_code is HTTPStatus.OK indicate success,
-    # otherwise indicate request is failed, you can get error code
-    # and message from code and message.
-    if response.status_code == HTTPStatus.OK:
-        print(response)
+    # Load the image.
+    image = Image.open(image_path)
+    draw = ImageDraw.Draw(image)
+    w, h = image.size # get the width and height od the image size
+
+
+    # Create a plot.
+    fig, ax = plt.subplots()
+
+    # Display the image.
+    ax.imshow(image)
+
+    # Go through each action and plot the bounding boxes.
+    if output_data['robot_actions'] is not None:
+        for action in output_data['robot_actions']:
+            bbox1 = action['parameters']['arg1']['bbox_coordinates']
+            caption1 = action['parameters']['arg1']['description']
+
+            # check if arg2 exists
+            if 'arg2' in action['parameters']:
+                bbox2 = action['parameters']['arg2']['bbox_coordinates']
+                caption2 = action['parameters']['arg2']['description']
+
+                add_bbox_patch(ax, draw, bbox1, 'red', w, h, caption1)
+                add_bbox_patch(ax, draw, bbox2, 'blue', w, h, caption2)
+
+            else:
+                add_bbox_patch(ax, draw, bbox1, 'red', w, h, caption1)
+
+            # Show the plot with the bounding boxes.
+        plt.show()
+        # image.show()
+    # else:
+    #     print("The action is None.")
+
+
+
+def single_multimodal_call(base_prompt, query, log=True, return_response=False):
+
+    """single round multimodal conversation call with CURIGPT.
+    """
+
+    # Make a copy of the base prompt to avoid modifying the original
+    new_prompt = base_prompt.copy()
+    new_prompt.append({"role": "user", "content": [{"image": local_file_path1}, {"text": query}]})
+    # response_dict = dashscope.MultiModalConversation.call(model='qwen-vl-max',
+    #                                                  messages=new_prompt)
+    #call with local file
+    response_dict = MultiModalConversation.call(model=MultiModalConversation.Models.qwen_vl_chat_v1,
+                                               messages=new_prompt, top_p=0.5, top_k=50)
+    # response_dict = MultiModalConversation.call(model='qwen-vl-plus',
+    #                                            messages=new_prompt)
+    if response_dict.status_code == HTTPStatus.OK:
+        response = response_dict[
+            "output"]["choices"][0]["message"]["content"]
+        print("CURI response:\n", response)
+
+        # Plot the image with bounding boxes if the response contains actions.
+        plot_image_with_bbox(local_file_path1, response)
     else:
-        print(response.code)  # The error code.
-        print(response.message)
+        print(response_dict.code)  # The error code.
+        print(response_dict.message)  # The error message.
+
+    if return_response:
+        return new_prompt, response_dict
+
+def multiple_multimodal_call(base_prompt, query, rounds = 10, log=True, return_response=False):
+
+    """multiple rounds of  multimodal conversation call with CURIGPT.
+    """
+    base_prompt.append({"role": "user", "content": [{'image': local_file_path1}, {"text": query}]})
+
+    for i in range(rounds):
+        new_prompt = base_prompt
+        # response = dashscope.MultiModalConversation.call(model='qwen-vl-max',
+        #                                                  messages=new_prompt)
+        #call with local file
+        response_dict = MultiModalConversation.call(model=MultiModalConversation.Models.qwen_vl_chat_v1,
+                                                   messages=new_prompt)
+        response = response_dict[
+            "output"]['choices'][0]['message']['content']
+
+        if response_dict.status_code == HTTPStatus.OK:
+            print("CURI response:\n", response)
+        else:
+            print(response_dict.code)  # The error code.
+            print(response_dict.message)  # The error message.
+
+        if return_response:
+            return response
+
+
+def get_curi_response(base_multimodal_prompt, rounds=10, prompt_append=False):
+
+    """Get CURI response for a given number of rounds."""
+    inference_results = None
+    if not prompt_append:
+        print("without prompt append")
+        for i in range(rounds):
+            instruction = input("Please input your instruction: ")
+            inference_results = single_multimodal_call(base_multimodal_prompt, instruction, log=True, return_response=False)
+
+    else:
+        if rounds < 1:
+            raise ValueError("Number of rounds must be at least 1.")
+
+        for i in range(rounds):
+            instruction = input("Please input your instruction: ")
+
+            # Single call for each round
+            if i == 1:
+                # For the first round or if not returning response, just update the prompt
+                inference_results = single_multimodal_call(base_multimodal_prompt, instruction, log=True,
+                                                           return_response=False)
+
+            else:
+                # For subsequent rounds, get the response as well to append to the prompt
+                new_prompt, response_dict = single_multimodal_call(base_multimodal_prompt, instruction, log=True,
+                                                                   return_response=True)
+                if 'output' in response_dict and 'choices' in response_dict['output'] and len(
+                        response_dict['output']['choices']) > 0:
+                    # Append the model's response to the prompt for the next round
+                    response_content = response_dict['output']['choices'][0]['message']['content']
+                    response_role = response_dict['output']['choices'][0]['message']['role']
+                    new_prompt.append({'role': response_role, 'content': [{'text': response_content}]})
+                base_multimodal_prompt = new_prompt
 
 
 if __name__ == '__main__':
-    # simple_multimodal_conversation_call()
-    # conversation_call()
-    # call_with_local_file()
-    multiple_call_with_local_file()
+    # multiple_call_with_local_file()
+    # rounds = int(input("How many rounds of conversation do you want? "))
+    get_curi_response(base_multimodal_prompt, prompt_append=False)

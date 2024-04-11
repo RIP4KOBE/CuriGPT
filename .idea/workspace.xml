@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="651b2630-3b96-492b-bdc2-d8dddd6b3efa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/CuriGPT.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mllm_reasoning.py" afterDir="false" />
+    <list default="true" id="651b2630-3b96-492b-bdc2-d8dddd6b3efa" name="Changes" comment="initial commit of CURIGPT">
+      <change afterPath="$PROJECT_DIR$/mllm_prompt.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mllm_reasoning_bkp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mllm_reasoning.py" beforeDir="false" afterPath="$PROJECT_DIR$/mllm_reasoning.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +18,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;RIP4KOBE&quot;
+  }
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/RIP4KOBE/CuriGPT.git&quot;,
+    &quot;accountId&quot;: &quot;6e2a1b2b-a0ea-4c50-8d75-e63823b73a74&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2eaEE8lGg8j5F0flT1ZzLNmPMgA" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -36,9 +48,17 @@
     "Python.mllm_reasoning.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/zhuoli/PycharmProjects/CuriGPT",
+    "settings.editor.selected.configurable": "preferences.externalTools"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/assets/img" />
+    </key>
+  </component>
   <component name="RunManager" selected="Python.mllm_reasoning">
     <configuration name="api_key" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CuriGPT" />
@@ -68,8 +88,8 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="DASHSCOPE_API_KEY" value="sk-679e8bed050240b1b000474e7f5c3e29" />
         <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DASHSCOPE_API_KEY" value="sk-0fc9a6356db54c278da1afce0c422a8a" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -98,7 +118,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-09665e90c3a7-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.15026.15" />
+        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
       </set>
     </attachedChunks>
   </component>
@@ -111,6 +131,19 @@
       <option name="presentableId" value="Default" />
       <updated>1712134173734</updated>
     </task>
+    <task id="LOCAL-00001" summary="initial commit of CURIGPT">
+      <option name="closed" value="true" />
+      <created>1712216579376</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1712216579376</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initial commit of CURIGPT" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial commit of CURIGPT" />
   </component>
 </project>
