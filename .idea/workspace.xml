@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="651b2630-3b96-492b-bdc2-d8dddd6b3efa" name="Changes" comment="initial commit of CURIGPT">
-      <change afterPath="$PROJECT_DIR$/mllm_prompt.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mllm_reasoning_bkp.py" afterDir="false" />
+    <list default="true" id="651b2630-3b96-492b-bdc2-d8dddd6b3efa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/scripts/voice_chatter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/voice_chatter_bkp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CuriGPT.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CuriGPT.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mllm_reasoning.py" beforeDir="false" afterPath="$PROJECT_DIR$/mllm_reasoning.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mllm_prompt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/mllm_prompt.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mllm_reasoning.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/mllm_reasoning.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mllm_reasoning_bkp.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/mllm_reasoning_bkp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,21 +21,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;RIP4KOBE&quot;
-  }
-}</component>
-  <component name="GitToolBoxStore">
-    <option name="projectConfigVersion" value="5" />
-  </component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/RIP4KOBE/CuriGPT.git&quot;,
-    &quot;accountId&quot;: &quot;6e2a1b2b-a0ea-4c50-8d75-e63823b73a74&quot;
-  }
-}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -42,24 +30,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.api_key.executor": "Run",
-    "Python.mllm_reasoning.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/zhuoli/PycharmProjects/CuriGPT",
-    "settings.editor.selected.configurable": "preferences.externalTools"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.api_key.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mllm_reasoning.executor&quot;: &quot;Run&quot;,
+    &quot;Python.voice_chatter_bkp.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/zhuoli/CuriGPT&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/assets/img" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/scripts" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.mllm_reasoning">
+  <component name="RunManager" selected="Python.voice_chatter_bkp">
     <configuration name="api_key" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CuriGPT" />
       <option name="ENV_FILES" value="" />
@@ -88,15 +79,39 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="DASHSCOPE_API_KEY" value="sk-679e8bed050240b1b000474e7f5c3e29" />
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DASHSCOPE_API_KEY" value="sk-0fc9a6356db54c278da1afce0c422a8a" />
+        <env name="OPENAI_API_KEY" value="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" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mllm_reasoning.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/mllm_reasoning.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="voice_chatter_bkp" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="CuriGPT" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="OPENAI_API_KEY" value="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" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/scripts/voice_chatter_bkp.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -107,6 +122,7 @@
     </configuration>
     <list>
       <item itemvalue="Python.mllm_reasoning" />
+      <item itemvalue="Python.voice_chatter_bkp" />
       <item itemvalue="Python.api_key" />
     </list>
     <recent_temporary>
@@ -118,7 +134,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
+        <option value="bundled-python-sdk-09665e90c3a7-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.15026.15" />
       </set>
     </attachedChunks>
   </component>
@@ -131,19 +147,6 @@
       <option name="presentableId" value="Default" />
       <updated>1712134173734</updated>
     </task>
-    <task id="LOCAL-00001" summary="initial commit of CURIGPT">
-      <option name="closed" value="true" />
-      <created>1712216579376</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1712216579376</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="initial commit of CURIGPT" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit of CURIGPT" />
   </component>
 </project>
