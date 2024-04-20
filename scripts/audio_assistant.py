@@ -8,6 +8,7 @@ from pydub import AudioSegment
 from pydub.playback import play
 import openai
 from openai import OpenAI
+import time
 
 class AudioAssistant:
     def __init__(self, openai_api_key, base_url, user_input_filename, curigpt_output_filename):
@@ -15,7 +16,7 @@ class AudioAssistant:
         self.user_input_filename = user_input_filename
         self.curigpt_output_filename = curigpt_output_filename
 
-    def record_audio(self, sample_rate=44100, duration=10):
+    def record_audio(self, sample_rate=44100, duration=5):
         print("Press 'Enter' to start recording...")
         audio_frames = np.zeros((int(sample_rate * duration), 1), dtype='float32')
         is_recording = False
@@ -28,8 +29,8 @@ class AudioAssistant:
                 # Start non-blocking recording
                 sd.rec(samplerate=sample_rate, channels=1, dtype='float32', out=audio_frames, blocking=True)
                 # audio_frames = sd.rec(duration * sample_rate, samplerate=sample_rate, channels=1, dtype='float32', blocking=False, device_index=device_index)
-            else:
-                print("Recording is already in progress...")
+            # else:
+            #     print("Recording is already in progress...")
 
         # Define the callback function for key release
         def on_release(key):
@@ -74,7 +75,7 @@ class AudioAssistant:
     def text_to_speech(self, text):
         response = self.client.audio.speech.create(
             model="tts-1",
-            voice="onyx",
+            voice="alloy",
             input=text,
         )
 
@@ -82,18 +83,53 @@ class AudioAssistant:
         sound = AudioSegment.from_mp3(self.curigpt_output_filename)
         play(sound)
 
+    def audio_demo(self):
+        demo1_audio = "../assets/chat_audio/huawei_demo1.mp3"
+        demo2_audio = "../assets/chat_audio/huawei_demo2.mp3"
+        demo3_audio = "../assets/chat_audio/huawei_demo3.mp3"
+
+        audio_files = [demo1_audio, demo2_audio, demo3_audio]
+
+        for audio_file in audio_files:
+            # print("Playing:", audio_file)
+            time.sleep(10)
+            sound = AudioSegment.from_mp3(audio_file)
+            play(sound)
+            # total_sleep_time = sound.duration_seconds + 10
+
+
+        # for i in range(10):
+        #     instruction = input("Please input your instruction: ")
+        #     try:
+        #         instruction = int(instruction)  # Convert input to integer
+        #     except ValueError:
+        #         print("Please enter a valid number.")
+        #         continue
+        #
+        #     if instruction == 1:
+        #         sound = AudioSegment.from_mp3(demo1_audio)
+        #         play(sound)
+        #     elif instruction == 2:
+        #         sound = AudioSegment.from_mp3(demo2_audio)
+        #         play(sound)
+        #     elif instruction == 3:
+        #         sound = AudioSegment.from_mp3(demo3_audio)
+        #         play(sound)
+        #     else:
+        #         print("Invalid instruction. Please input 1, 2, or 3.")
 
 if __name__ == '__main__':
     # Load your OpenAI API key from an environment variable
     # openai.api_key = os.getenv('OPENAI_API_KEY')
     api_key = "sk-59XTKMjGzgbgSJjpC9D770A52eBd4d68902223561eE3F242"
     base_url = "https://www.jcapikey.com/v1"
-    user_input_filename = '/home/zhuoli/PycharmProjects/CuriGPT/assets/chat_audio/user_input.wav'
-    curigpt_output_filename = '/home/zhuoli/PycharmProjects/CuriGPT/assets/chat_audio/curigpt_output.mp3'
-
+    user_input_filename = '../assets/chat_audio/user_input.wav'
+    curigpt_output_filename = '../assets/chat_audio/curigpt_output.mp3'
+    #
     assistant = AudioAssistant(api_key, base_url, user_input_filename, curigpt_output_filename)
-    # assistant.record_audio()
-    transcription = assistant.transcribe_audio()
-    response_text = assistant.generate_response(transcription)
-    assistant.text_to_speech(response_text)
+    assistant.audio_demo()
+    # # assistant.record_audio()
+    # transcription = assistant.transcribe_audio()
+    # response_text = assistant.generate_response(transcription)
+    # assistant.text_to_speech(response_text)
 

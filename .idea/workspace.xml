@@ -4,17 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="651b2630-3b96-492b-bdc2-d8dddd6b3efa" name="Changes" comment="initial commit of CURIGPT">
-      <change afterPath="$PROJECT_DIR$/assets/chat_audio/curigpt_output.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/chat_audio/user_input.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/curigpt_demo_huawei.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/audio_assistant.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/audio_assistant_bkp.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/mllm_reasoning_chinese.py" afterDir="false" />
+    <list default="true" id="651b2630-3b96-492b-bdc2-d8dddd6b3efa" name="Changes" comment="Update real-time MLLM reasonning">
+      <change afterPath="$PROJECT_DIR$/assets/chat_audio/huawei_demo1.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/chat_audio/huawei_demo2.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/chat_audio/huawei_demo3.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/img/realtime_rgb/realtime_rgb.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/chat_audio/curigpt_output.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/assets/chat_audio/curigpt_output.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/chat_audio/user_input.wav" beforeDir="false" afterPath="$PROJECT_DIR$/assets/chat_audio/user_input.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/audio_assistant.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/audio_assistant.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/mllm_reasoning.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/mllm_reasoning.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/voice_chatter.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/voice_chatter_bkp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/mllm_reasoning_chinese.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/mllm_reasoning_chinese.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,12 +33,14 @@
   <component name="GitToolBoxStore">
     <option name="projectConfigVersion" value="5" />
   </component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/RIP4KOBE/CuriGPT.git&quot;,
-    &quot;accountId&quot;: &quot;6e2a1b2b-a0ea-4c50-8d75-e63823b73a74&quot;
-  }
-}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="70516266-e124-4977-b09b-805162372b63" />
+        <option name="url" value="https://github.com/RIP4KOBE/CuriGPT.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -63,8 +65,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/zhuoli/PycharmProjects/CuriGPT/scripts",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+    "last_opened_file_path": "/home/curi/RoTools",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -148,8 +150,8 @@
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
-        <env name="DASHSCOPE_API_KEY" value="sk-bfe12097afed4249a73cbafb4fec3e1c" />
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DASHSCOPE_API_KEY" value="sk-bfe12097afed4249a73cbafb4fec3e1c" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/scripts" />
@@ -172,7 +174,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DASHSCOPE_API_KEY" value="sk-bfe12097afed4249a73cbafb4fec3e1c" />
+        <env name="DASHSCOPE_API_KEY" value="sk-7e27fa0054254383a312b4aee988cea4" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/scripts" />
@@ -189,17 +191,17 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.mllm_reasoning_chinese" />
-      <item itemvalue="Python.mllm_reasoning" />
-      <item itemvalue="Python.audio_assistant_bkp" />
-      <item itemvalue="Python.audio_assistant" />
       <item itemvalue="Python.api_key" />
+      <item itemvalue="Python.audio_assistant" />
+      <item itemvalue="Python.audio_assistant_bkp" />
+      <item itemvalue="Python.mllm_reasoning" />
+      <item itemvalue="Python.mllm_reasoning_chinese" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.mllm_reasoning_chinese" />
-        <item itemvalue="Python.mllm_reasoning" />
         <item itemvalue="Python.audio_assistant" />
+        <item itemvalue="Python.mllm_reasoning" />
         <item itemvalue="Python.audio_assistant_bkp" />
         <item itemvalue="Python.api_key" />
       </list>
@@ -208,7 +210,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-0509580d9d50-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.14494.241" />
+        <option value="bundled-python-sdk-09665e90c3a7-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.15026.15" />
       </set>
     </attachedChunks>
   </component>
@@ -229,15 +231,50 @@
       <option name="project" value="LOCAL" />
       <updated>1712216579376</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Update real-time MLLM reasonning">
+      <option name="closed" value="true" />
+      <created>1713578259312</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1713578259313</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="user">
+                    <value>
+                      <list>
+                        <option value="*" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -246,6 +283,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="initial commit of CURIGPT" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit of CURIGPT" />
+    <MESSAGE value="Update real-time MLLM reasonning" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update real-time MLLM reasonning" />
   </component>
 </project>

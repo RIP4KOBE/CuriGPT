@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw
 from audio_assistant import AudioAssistant
 
 # local_file_path1 = '/home/zhuoli/PycharmProjects/CuriGPT/assets/img/curigpt_test_tabletop.png'
-local_file_path1 = '/home/zhuoli/PycharmProjects/CuriGPT/assets/img/curigpt_demo_huawei.png'
+local_file_path1 = '../assets/img/curigpt_demo_huawei.png'
 #base prompt for model qwen_vl_chat_v1
 # base_multimodal_prompt = [
 #     {
@@ -477,121 +477,69 @@ local_file_path1 = '/home/zhuoli/PycharmProjects/CuriGPT/assets/img/curigpt_demo
 # #         }]
 # #     }
 # ]
-# base_multimodal_prompt = [
-# #     {
-# #         "role": "system",
-# #         "content": [{
-# #             "text": '''You are a multimodal large language model serving as the brain for a humanoid robot. Your capabilities include understanding and processing both visual data and natural language. Here is what you need to do:
-# #
-# # 1. **Speech-to-Speech Reasoning**: When provided with a human query and a scene image, analyze the image, understand the query's context, and generate an appropriate verbal response that demonstrates your understanding of the image content. The robot action is None in this case.
-# #
-# # 2. **Speech-to-Action Reasoning**: When the human command involves a task that you should perform, assess the necessary action, identify the relevant object in the image, and determine the bounding box coordinates for that object. Then, formulate a response plan to execute the task.
-# #
-# # Upon processing the information, output your responses in a structured JSON format with the following keys:
-# #
-# # - "robot_response" for the verbal response to the human query.
-# # - "robot_actions" for the description of the physical action you will perform, including the bounding box coordinates of the object you will manipulate.''',
-# #
-# #             "extra": '''ROBOT ACTION LIST is defined as follows:
-# # grasp_and_place(arg1, arg2): The robot grasps the object at position arg1 and places it at position arg2.
-# # grasp_handover_place(arg1, arg2): The robot grasps the object at position arg1 with the left hand, hands it over to the right hand, and places it at position arg2.
-# # grasp_and_give(arg1): The robot grasps the object at position arg1 and gives it to the user. Bounding box coordinates (arg1, arg2) should be determined by you based on the image provided. Here are some examples of expected inputs and outputs:'''
-# #         }]
-# #     },
-#     # Example 1: Speech-to-Speech Reasoning
-#     {
-#         "role": "user",
-#         "content": [
-#             {"image": local_file_path1},
-#             {"text": "hey CURI, what do you see right now?"},
-#         ]
-#     },
-#     {
-#         "role": "assistant",
-#         "content": [{
-#             "text": json.dumps({
-#                 "robot_response": "Now I see a red plate in the center of the table, and an empty spam can, a banana, and a soda can near the plate. There is also a green container on the upper left corner of the table.",
-#                 "robot_actions": None
-#             }, indent=4)
-#         }]
-#     },
-#     # Example 2: Speech-to-Action Reasoning
-#     {
-#         "role": "user",
-#         "content": [
-#             {"image": local_file_path1},
-#             {"text": "Can you give me something to drink?"}
-#         ]
-#     },
-#     {
-#         "role": "assistant",
-#         "content": [{
-#             "text": json.dumps({
-#                 "robot_response": "Sure, you can have the soda to drink.",
-#                 "robot_actions": [
-#                     {
-#                         "action": "grasp_and_give",
-#                         "parameters": {
-#                             "arg1": {
-#                                 "description": "soda can",
-#                                 "bbox_coordinates": [634, 672, 815, 780]  # Hypothetical coordinates for the soda can
-#                                 # [x1, y1, x2, y2]
-#                             }
-#                         }
-#                     }
-#                 ]
-#             }, indent=4)
-#         }]
-#     },
-#     {
-#         "role": "user",
-#         "content": [
-#             {"image": local_file_path1},
-#             {"text": "Can you put the spam can in the container?"}
-#         ]
-#     },
-#     {
-#         "role": "assistant",
-#         "content": [{
-#             "text": json.dumps({
-#                 "robot_response": "Sure thing.",
-#                 "robot_actions": [
-#                     {
-#                         "action": "grasp_and_place",
-#                             "parameters": {
-#                                 "arg1": {
-#                                     "description": "spam can",
-#                                     "bbox_coordinates": [139, 719, 317, 862] # [x1, y1, x2, y2]
-#                                 },
-#                                 "arg2": {
-#                                     "description": "container",
-#                                     "bbox_coordinates": [579, 67, 961, 300] # [x1, y1, x2, y2]
-#                                 }
-#                     }
-#                 }
-#                 ]
-#             }, indent=4)
-#         }]
-#     }
-# ]
-
-
 base_multimodal_prompt = [
+#     {
+#         "role": "system",
+#         "content": [{
+#             "text": '''You are a multimodal large language model serving as the brain for a humanoid robot. Your capabilities include understanding and processing both visual data and natural language. Here is what you need to do:
+#
+# 1. **Speech-to-Speech Reasoning**: When provided with a human query and a scene image, analyze the image, understand the query's context, and generate an appropriate verbal response that demonstrates your understanding of the image content. The robot action is None in this case.
+#
+# 2. **Speech-to-Action Reasoning**: When the human command involves a task that you should perform, assess the necessary action, identify the relevant object in the image, and determine the bounding box coordinates for that object. Then, formulate a response plan to execute the task.
+#
+# Upon processing the information, output your responses in a structured JSON format with the following keys:
+#
+# - "robot_response" for the verbal response to the human query.
+# - "robot_actions" for the description of the physical action you will perform, including the bounding box coordinates of the object you will manipulate.''',
+#
+#             "extra": '''ROBOT ACTION LIST is defined as follows:
+# grasp_and_place(arg1, arg2): The robot grasps the object at position arg1 and places it at position arg2.
+# grasp_handover_place(arg1, arg2): The robot grasps the object at position arg1 with the left hand, hands it over to the right hand, and places it at position arg2.
+# grasp_and_give(arg1): The robot grasps the object at position arg1 and gives it to the user. Bounding box coordinates (arg1, arg2) should be determined by you based on the image provided. Here are some examples of expected inputs and outputs:'''
+#         }]
+#     },
     # Example 1: Speech-to-Speech Reasoning
     {
         "role": "user",
         "content": [
             {"image": local_file_path1},
-            {"text": "下午好, 你能描述下你现在看到的场景吗?"},
+            {"text": "hey CURI, what do you see right now?"},
         ]
     },
     {
         "role": "assistant",
         "content": [{
             "text": json.dumps({
-                "robot_response":
-                    "好的，我看到一个白色的桌子上放着一些物品。左上角有一个橙色的洗涤剂，中间有一个绿色的绿茶罐子，一个蓝色的午餐肉罐头和一个红色的盘子，盘子里放着一根香蕉。",
+                "robot_response": "Now I see a red plate in the center of the table, and an empty spam can, a banana, and a soda can near the plate. There is also a green container on the upper left corner of the table.",
                 "robot_actions": None
+            }, indent=4)
+        }]
+    },
+    # Example 2: Speech-to-Action Reasoning
+    {
+        "role": "user",
+        "content": [
+            {"image": local_file_path1},
+            {"text": "Can you give me something to drink?"}
+        ]
+    },
+    {
+        "role": "assistant",
+        "content": [{
+            "text": json.dumps({
+                "robot_response": "Sure, you can have the soda to drink.",
+                "robot_actions": [
+                    {
+                        "action": "grasp_and_give",
+                        "parameters": {
+                            "arg1": {
+                                "description": "soda can",
+                                "bbox_coordinates": [634, 672, 815, 780]  # Hypothetical coordinates for the soda can
+                                # [x1, y1, x2, y2]
+                            }
+                        }
+                    }
+                ]
             }, indent=4)
         }]
     },
@@ -599,52 +547,104 @@ base_multimodal_prompt = [
         "role": "user",
         "content": [
             {"image": local_file_path1},
-            {"text": "你觉得桌上的哪个物品适合作为吃火锅时的配菜呢？"},
+            {"text": "Can you put the spam can in the container?"}
         ]
     },
     {
         "role": "assistant",
         "content": [{
             "text": json.dumps({
-                "robot_response": "我认为午餐肉罐头适合作为吃火锅时的配菜，因为它易于烹饪，可以在火锅中快速煮熟，并可以与其他食材搭配，增加火锅的多样性",
-                "robot_actions": None
+                "robot_response": "Sure thing.",
+                "robot_actions": [
+                    {
+                        "action": "grasp_and_place",
+                            "parameters": {
+                                "arg1": {
+                                    "description": "spam can",
+                                    "bbox_coordinates": [139, 719, 317, 862] # [x1, y1, x2, y2]
+                                },
+                                "arg2": {
+                                    "description": "container",
+                                    "bbox_coordinates": [579, 67, 961, 300] # [x1, y1, x2, y2]
+                                }
+                    }
+                }
+                ]
             }, indent=4)
         }]
-    },
-    {
-        "role": "user",
-        "content": [
-            {"image": local_file_path1},
-            {"text": "那香蕉为什么不适合呢？"},
-        ]
-    },
-    {
-        "role": "assistant",
-        "content": [{
-            "text": json.dumps({
-                "robot_response":
-                    "因为香蕉是一种水果，其口感和味道与火锅的其他食材相比可能会显得不太协调。此外，香蕉在高温下容易变软和糊化，这可能会影响其口感和营养价值。因此，香蕉通常不是火锅的常见配菜",
-                "robot_actions": None
-            }, indent=4)
-        }]
-    },
-    {
-        "role": "user",
-        "content": [
-            {"image": local_file_path1},
-            {"text": "我想清洗一下红色盘子，你可以把洗涤剂递给我吗"},
-        ]
-    },
-    {
-        "role": "assistant",
-        "content": [{
-            "text": json.dumps({
-                "robot_response": "好的，没问题",
-                "robot_actions": None
-            }, indent=4)
-        }]
-    },
+    }
 ]
+
+
+# base_multimodal_prompt = [
+#     # Example 1: Speech-to-Speech Reasoning
+#     {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "下午好, 你能描述下你现在看到的场景吗?"},
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response":
+#                     "好的，我看到一个白色的桌子上放着一些物品。左上角有一个橙色的洗涤剂，中间有一个绿色的绿茶罐子，一个蓝色的午餐肉罐头和一个红色的盘子，盘子里放着一根香蕉。",
+#                 "robot_actions": None
+#             }, indent=4)
+#         }]
+#     },
+#     {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "你觉得桌上的哪个物品适合作为吃火锅时的配菜呢？"},
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response": "我认为午餐肉罐头适合作为吃火锅时的配菜，因为它易于烹饪，可以在火锅中快速煮熟，并可以与其他食材搭配，增加火锅的多样性",
+#                 "robot_actions": None
+#             }, indent=4)
+#         }]
+#     },
+#     {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "那香蕉为什么不适合呢？"},
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response":
+#                     "因为香蕉是一种水果，其口感和味道与火锅的其他食材相比可能会显得不太协调。此外，香蕉在高温下容易变软和糊化，这可能会影响其口感和营养价值。因此，香蕉通常不是火锅的常见配菜",
+#                 "robot_actions": None
+#             }, indent=4)
+#         }]
+#     },
+#     {
+#         "role": "user",
+#         "content": [
+#             {"image": local_file_path1},
+#             {"text": "我想清洗一下红色盘子，你可以把洗涤剂递给我吗"},
+#         ]
+#     },
+#     {
+#         "role": "assistant",
+#         "content": [{
+#             "text": json.dumps({
+#                 "robot_response": "好的，没问题",
+#                 "robot_actions": None
+#             }, indent=4)
+#         }]
+#     },
+# ]
 
 def add_bbox_patch(ax, draw, bbox, color, w, h, caption):
     x1, y1, x2, y2 = bbox
