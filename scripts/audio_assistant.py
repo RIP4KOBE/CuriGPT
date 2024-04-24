@@ -1,3 +1,10 @@
+"""
+Audio Assistant for CuriGPT
+===========================
+This script exploits OpenAI's API to create an audio assistant that can transcribe audio, generate responses.
+"""
+
+
 import sounddevice as sd
 import soundfile as sf
 from scipy.io.wavfile import write
@@ -9,6 +16,8 @@ from pydub.playback import play
 import openai
 from openai import OpenAI
 import time
+import json
+
 
 class AudioAssistant:
     def __init__(self, openai_api_key, base_url, user_input_filename, curigpt_output_filename):
@@ -28,11 +37,10 @@ class AudioAssistant:
                 print("Recording... Release 'Enter' to stop.")
                 # Start non-blocking recording
                 sd.rec(samplerate=sample_rate, channels=1, dtype='float32', out=audio_frames, blocking=True)
-                # audio_frames = sd.rec(duration * sample_rate, samplerate=sample_rate, channels=1, dtype='float32', blocking=False, device_index=device_index)
-            # else:
-            #     print("Recording is already in progress...")
+            else:
+                print("Wait for recording...")
 
-        # Define the callback function for key release
+        # define the callback function for key release
         def on_release(key):
             nonlocal is_recording
             if key == keyboard.Key.enter and is_recording:
@@ -40,7 +48,6 @@ class AudioAssistant:
                 sd.stop()
                 is_recording = False
                 print("Recording stopped.")
-                # write(user_input_filename, sample_rate, audio_frames)
                 sf.write(self.user_input_filename, audio_frames, sample_rate)
 
                 print("Audio saved as output.wav")
@@ -64,6 +71,9 @@ class AudioAssistant:
         return transcription.text
 
     def generate_response(self, text):
+        '''
+        Generate a response using OpenAI's GPT-3.5 model
+        '''
         response = self.client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": text}]
@@ -73,6 +83,9 @@ class AudioAssistant:
 
 
     def text_to_speech(self, text):
+        '''
+        Convert text to speech using OpenAI's TTS model
+        '''
         response = self.client.audio.speech.create(
             model="tts-1",
             voice="alloy",
@@ -84,6 +97,9 @@ class AudioAssistant:
         play(sound)
 
     def audio_demo(self):
+        '''
+        Play the demo audio files
+        '''
         demo1_audio = "../assets/chat_audio/huawei_demo1.mp3"
         demo2_audio = "../assets/chat_audio/huawei_demo2.mp3"
         demo3_audio = "../assets/chat_audio/huawei_demo3.mp3"
@@ -95,40 +111,27 @@ class AudioAssistant:
             time.sleep(10)
             sound = AudioSegment.from_mp3(audio_file)
             play(sound)
-            # total_sleep_time = sound.duration_seconds + 10
-
-
-        # for i in range(10):
-        #     instruction = input("Please input your instruction: ")
-        #     try:
-        #         instruction = int(instruction)  # Convert input to integer
-        #     except ValueError:
-        #         print("Please enter a valid number.")
-        #         continue
-        #
-        #     if instruction == 1:
-        #         sound = AudioSegment.from_mp3(demo1_audio)
-        #         play(sound)
-        #     elif instruction == 2:
-        #         sound = AudioSegment.from_mp3(demo2_audio)
-        #         play(sound)
-        #     elif instruction == 3:
-        #         sound = AudioSegment.from_mp3(demo3_audio)
-        #         play(sound)
-        #     else:
-        #         print("Invalid instruction. Please input 1, 2, or 3.")
 
 if __name__ == '__main__':
-    # Load your OpenAI API key from an environment variable
-    # openai.api_key = os.getenv('OPENAI_API_KEY')
-    api_key = "sk-59XTKMjGzgbgSJjpC9D770A52eBd4d68902223561eE3F242"
-    base_url = "https://www.jcapikey.com/v1"
-    user_input_filename = '../assets/chat_audio/user_input.wav'
-    curigpt_output_filename = '../assets/chat_audio/curigpt_output.mp3'
-    #
+
+    # load the configuration from the config.json file
+    with open('../config/config.json', 'r') as config_file:
+        config = json.load(config_file)
+
+    # accessing configuration variables
+    api_key = config['api_key']
+    base_url = config['base_url']
+    user_input_filename = config['user_input_filename']
+    curigpt_output_filename = config['curigpt_output_filename']
+
+    # create an instance of the AudioAssistant class
     assistant = AudioAssistant(api_key, base_url, user_input_filename, curigpt_output_filename)
+
+    # run the audio assistant in demo mode
     assistant.audio_demo()
-    # # assistant.record_audio()
+
+    # run the audio assistant in interactive mode
+    # assistant.record_audio()
     # transcription = assistant.transcribe_audio()
     # response_text = assistant.generate_response(transcription)
     # assistant.text_to_speech(response_text)
