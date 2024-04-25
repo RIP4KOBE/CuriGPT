@@ -70,7 +70,7 @@ python curigpt.py
 [//]: # (```)
 
 ## The Team
-Rofunc-ros is developed and maintained by the [CLOVER Lab (Collaborative and Versatile Robots Laboratory)](https://feichenlab.com/), CUHK.
+CuriGPT is developed and maintained by the [CLOVER Lab (Collaborative and Versatile Robots Laboratory)](https://feichenlab.com/), CUHK.
 
 [//]: # (## Related repository: Rofunc)
 
