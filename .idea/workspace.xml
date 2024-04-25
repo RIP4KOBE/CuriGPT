@@ -4,19 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="651b2630-3b96-492b-bdc2-d8dddd6b3efa" name="Changes" comment="initial commit of CURIGPT">
-      <change afterPath="$PROJECT_DIR$/config/config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/prompt/mllm_prompt_English.txt" afterDir="false" />
+    <list default="true" id="651b2630-3b96-492b-bdc2-d8dddd6b3efa" name="Changes" comment="initial code optimization">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dcos/Installation.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/chat_audio/curigpt_output.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/assets/chat_audio/curigpt_output.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/chat_audio/user_input.wav" beforeDir="false" afterPath="$PROJECT_DIR$/assets/chat_audio/user_input.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/img/realtime_rgb/realtime_rgb.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/realtime_rgb/realtime_rgb.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/audio_assistant.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/audio_assistant.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/audio_assistant_bkp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/mllm_prompt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/prompt/mllm_prompt_Chinese.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/mllm_reasoning.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/mllm_reasoning.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/mllm_reasoning_bkp.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/mllm_reasoning_chinese.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/curigpt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/curigpt.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/curigpt.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,25 +47,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.api_key.executor": "Run",
-    "Python.audio_assistant.executor": "Run",
-    "Python.audio_assistant_bkp.executor": "Run",
-    "Python.curigpt.executor": "Run",
-    "Python.mllm_reasoning (1).executor": "Run",
-    "Python.mllm_reasoning.executor": "Run",
-    "Python.mllm_reasoning_chinese.executor": "Run",
-    "Python.realtime_mllm_reasoning.executor": "Run",
-    "Python.voice_chatter_bkp.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/zhuoli/PycharmProjects/CuriGPT/scripts",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.api_key.executor&quot;: &quot;Run&quot;,
+    &quot;Python.audio_assistant.executor&quot;: &quot;Run&quot;,
+    &quot;Python.audio_assistant_bkp.executor&quot;: &quot;Run&quot;,
+    &quot;Python.curigpt.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mllm_reasoning (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.mllm_reasoning.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mllm_reasoning_chinese.executor&quot;: &quot;Run&quot;,
+    &quot;Python.realtime_mllm_reasoning.executor&quot;: &quot;Run&quot;,
+    &quot;Python.voice_chatter_bkp.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/zhuoli/PycharmProjects/CuriGPT/scripts&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/prompt" />
@@ -84,7 +79,7 @@
       <recent name="$PROJECT_DIR$/prompt" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.audio_assistant">
+  <component name="RunManager" selected="Python.curigpt">
     <configuration name="api_key" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CuriGPT" />
       <option name="ENV_FILES" value="" />
@@ -207,8 +202,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.audio_assistant" />
         <item itemvalue="Python.curigpt" />
+        <item itemvalue="Python.audio_assistant" />
         <item itemvalue="Python.mllm_reasoning" />
         <item itemvalue="Python.audio_assistant_bkp" />
         <item itemvalue="Python.api_key" />
@@ -239,7 +234,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712216579376</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="initial code optimization">
+      <option name="closed" value="true" />
+      <created>1713969664030</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1713969664030</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -256,6 +259,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="initial commit of CURIGPT" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit of CURIGPT" />
+    <MESSAGE value="initial code optimization" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial code optimization" />
   </component>
 </project>
